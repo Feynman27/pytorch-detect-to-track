@@ -67,8 +67,6 @@ D&T paper for more details.
 [here](https://drive.google.com/drive/folders/1TM9bJ1mod2EipgXHhYscRxkJhrtOGSju?usp=sharing) 
 under the name rfcn_detect.pth
 
-TODO: Make RFCN repo publically available. 
-
 Imagenet VID+DET (Train/Test: imagenet_vid_train+imagenet_det_train/imagenet_vid_val,
 scale=600, PS ROI Pooling).
 
