@@ -47,7 +47,9 @@ implementation.
 
 ## Benchmarking
 *WORK IN PROGRESS*
-We are currently benchmarking this implementation on the Imagenet VID dataset.
+
+This project is a work in progress, and PRs are welcome. The current implementation is
+benchmarked against the Imagenet VID dataset.
 
 For training, we adopt the common heuristic of passing alternating samples
 from VID and DET (e.g. iteration 1 is from VID, iteration 2 is from DET, etc).
@@ -56,7 +58,12 @@ avoids biasing the training towards longer snippets. However, validation perform
 is evaluated on each frame from each snippet of VAL. Please refer to the
 D&T paper for more details.
 
-1). Baseline single-frame RFCN: ([see this repo](https://github.com/markable-dev/markable-cv-pytorch-rfcn-refactor))
+1). Baseline single-frame RFCN:
+(Trained model can be accessed 
+[here](https://drive.google.com/drive/folders/1TM9bJ1mod2EipgXHhYscRxkJhrtOGSju?usp=sharing) 
+under the name rfcn_detect.pth
+TODO: Make RFCN repo publically available. 
+
 Imagenet VID+DET (Train/Test: imagenet_vid_train+imagenet_det_train/imagenet_vid_val,
 scale=600, PS ROI Pooling).
 
@@ -67,29 +74,34 @@ Res-101     | 2 | 2 | 1e-3 | 5   | 11   |  -- | 8021MiB   | 70.3
 2). D(&T loss) Imagenet VID+DET
 (Train/Test: imagenet_vid_train+imagenet_det_train/imagenet_vid_val, scale=600, PS ROI Pooling).
 This network is initialized with the weights from the single-frame RFCN baseline above.
-*Currently, the performance drops by 1.6 percentage points*. The issue is currently being
-investigated.
+Trained model can be accessed from 
+[here](https://drive.google.com/drive/folders/1TM9bJ1mod2EipgXHhYscRxkJhrtOGSju?usp=sharing) 
+under the name rfcn_detect_track_1_7_32941.pth).
+
+*Currently, the performance drops by 1.6 percentage points*. 
+The issue is currently unknown. Again, PRs are welcome.
 
 
 model    | #GPUs | batch size | lr        | lr_decay | max_epoch     |  time/epoch | mem/GPU | mAP 
 ---------|--------|-----|--------|-----|-----|-------|--------|-----
 Res-101     | 2 | 2 | 1e-4 | 5   | 7   |  -- | 8021MiB   | 68.7
 
+TODO: Result using Viterbi algorithm as linking post-processing step.
+
 * If not mentioned, the GPU we used is NVIDIA Titan X Pascal (12GB).
 
 ### prerequisites
 
 * Python 2.7
-* Pytorch 0.3.0+ (0.2.0 may work, but hasn't been tested)
+* Pytorch 0.3.0 (0.4.0+ may work, but hasn't been tested; 
+some minor tweaks are probably required.)
 * CUDA 8.0 or higher
 
-### Compilation
+TODO:
+- Update to Pytorch 0.4.0+
+- Make Python 3 compatible
 
-Clone the code
-```
-git clone https://github.com/markable-dev/markable-cv-pytorch-detect-to-track-refactor.git
-```
-
+### Build 
 As pointed out by [ruotianluo/pytorch-faster-rcnn](https://github.com/ruotianluo/pytorch-faster-rcnn), choose the right `-arch` to compile the cuda code:
 
   | GPU model  | Architecture |
@@ -127,12 +139,12 @@ The default version is compiled with Python 2.7, please compile by yourself if y
 
 Then:
 ```
-cd markable-cv-pytorch-detect-to-track-refactor
+cd pytorch-detect-and-track
 mkdir data
 ```
 
-Download the ILSVRC VID and DET from
-[S3](https://s3.console.aws.amazon.com/s3/buckets/markable-ai-rochester-shared-bucket/?region=us-east-2&tab=overview#).
+Download the ILSVRC VID and DET (TODO: Add public link).
+
 Untar the file:
 ```bash
 tar xf ILSVRC2015.tar.gz
@@ -160,15 +172,14 @@ Make sure the directory structure looks something like:
 |------VID
 ```
 
-Create a soft link in `markable-cv-pytorch-detect-to-track-refactor/data`:
+Create a soft link in `DATAPATH=pytorch-detect-and-track/data`:
 
 ```bash
 ln -s $DATAPATH/ILSVRC2015 ./ILSVRC
 ```
 
-Create a directory called `markable-cv-pytorch-detect-to-track-refactor/data/pretrained_model`,
-and place the pretrained models from [S3](https://s3.console.aws.amazon.com/s3/buckets/markable-ai-rochester-shared-bucket/pretrained_Model/?region=us-east-2&tab=overview)
-into this directory.
+Create a directory called `pytorch-detect-and-track/data/pretrained_model`,
+and place the pretrained models into this directory.
 
 Before training, set the correct directory to save and load the trained models.
 The default is `./output/models`.
@@ -197,9 +208,6 @@ and `--mGPUs` should be set according to the number of
 GPUs you wish to train on and your GPU memory size.
 **On 2 Titan Xps with 12G memory, the batch size can be up to 2 (4 images, 2 per GPU)**.
 
-## Test
-
-## Demo
 
 ## Authorship
 
