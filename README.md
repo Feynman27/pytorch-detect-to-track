@@ -24,13 +24,16 @@ As in that implementation, this repository has the following qualities:
 
 * **It is pure Pytorch code**. We convert all the numpy implementations to pytorch!
 
-* **It supports multi-image batch training**. We revise all the layers, including dataloader, rpn, roi-pooling, etc., to support multiple images in each minibatch.
+* **It supports multi-image batch training**. We revise all the layers, including dataloader, rpn, roi-pooling, etc., 
+to support multiple images in each minibatch.
 
-* **It supports multiple GPUs training**. We use a multiple GPU wrapper (nn.DataParallel here) to make it flexible to use one or more GPUs, as a merit of the above two features.
+* **It supports multiple GPUs training**. We use a multiple GPU wrapper (nn.DataParallel here) to make it flexible to 
+use one or more GPUs, as a merit of the above two features.
 
 Furthermore, since the Detect to Track and Track to Detect implementation 
 originally used an R-FCN siamese network and correlation layer, we've added/modified the following:
-* **Supports multiple images per roidb entry**. By default, we use 2 images in contiguous frames to define an roidb entry to faciliate
+* **Supports multiple images per roidb entry**. By default, we use 2 images in contiguous frames to define 
+an roidb entry to faciliate
 a forward pass through a two-legged siamese network. 
 
 * **It is memory efficient**. We limit the aspect ratio of the images in each roidb and group images 
@@ -39,8 +42,9 @@ with similar aspect ratios into a minibatch. As such, we can train resnet101 wit
 * **Supports 4 pooling methods**. roi pooling, roi alignment, roi cropping, and position-sensitive roi pooling. 
 More importantly, we modify all of them to support multi-image batch training.
 
-* **Supports correlation layer**. We adopt the correlation layer from NVIDIA's [flownet2](https://github.com/NVIDIA/flownet2-pytorch)
-implementation.
+* **Supports correlation layer**. We adopt the correlation layer from NVIDIA's 
+[flownet2](https://github.com/NVIDIA/flownet2-pytorch) implementation.
+
 ## Other Resources
 
 * Original Matlab implementation by the authors [feichtenhofer/Detect-Track](https://github.com/feichtenhofer/Detect-Track)
@@ -58,10 +62,11 @@ avoids biasing the training towards longer snippets. However, validation perform
 is evaluated on each frame from each snippet of VAL. Please refer to the
 D&T paper for more details.
 
-1). Baseline single-frame RFCN:
+1). Baseline single-frame RFCN (see [this](https://github.com/Feynman27/pytorch-detect-rfcn) repo:
 (Trained model can be accessed 
 [here](https://drive.google.com/drive/folders/1TM9bJ1mod2EipgXHhYscRxkJhrtOGSju?usp=sharing) 
 under the name rfcn_detect.pth
+
 TODO: Make RFCN repo publically available. 
 
 Imagenet VID+DET (Train/Test: imagenet_vid_train+imagenet_det_train/imagenet_vid_val,
@@ -172,7 +177,7 @@ Make sure the directory structure looks something like:
 |------VID
 ```
 
-Create a soft link in `DATAPATH=pytorch-detect-and-track/data`:
+Create a soft link under `pytorch-detect-and-track/data`:
 
 ```bash
 ln -s $DATAPATH/ILSVRC2015 ./ILSVRC
