@@ -146,7 +146,9 @@ cd pytorch-detect-and-track
 mkdir data
 ```
 
-Download the ILSVRC VID and DET (TODO: Add public link).
+Download the ILSVRC VID and DET (train/val/test lists can be found [here](https://drive.google.com/drive/u/0/folders/1hFcVKwqrMFnXf7ysl8ENE6uf2hD7w9Zo). 
+The ILSVRC2015 images can be downloaded from [here](http://image-net.org/download-images)
+).
 
 Untar the file:
 ```bash
